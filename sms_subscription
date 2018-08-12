@@ -1,0 +1,50 @@
+from flask import Flask, request
+from twilio.twiml.messaging_response import MessagingResponse
+import csv
+
+app = Flask(__name__)
+
+@app.route('/sms', methods=['GET', 'POST'])
+def sms_subscription():
+    contact_num = request.values.get('From')
+    response = request.values.get('Body')
+    resp = MessagingResponse()
+
+    if response.lower() == 'girlee':
+        with open('girlee.csv','a') as girlee:
+            csv_writer = csv.writer(girlee)
+            csv_writer.writerow([contact_num])
+            resp.message('Your entry is in. Thanks for particpating.')
+
+    elif response.lower() == 'captain dons':
+        with open('captain_dons.csv','a') as captain_dons:
+            csv_writer = csv.writer(captain_dons)
+            csv_writer.writerow([contact_num])
+            resp.message('Your entry is in. Thanks for particpating.')
+
+    elif response.lower() == 'adline':
+        with open('adline.csv','a') as adline:
+            csv_writer = csv.writer(adline)
+            csv_writer.writerow([contact_num])
+            resp.message('Your entry is in. Thanks for particpating.')
+
+    elif response.lower() == 'red snapper':
+        with open('red_snapper.csv','a') as red_snapper:
+            csv_writer = csv.writer(red_snapper)
+            csv_writer.writerow([contact_num])
+            resp.message('Your entry is in. Thanks for particpating.')
+
+    elif response.lower() == 'tims chicken':
+        with open('tims_chicken.csv','a') as tims_chicken:
+            csv_writer = csv.writer(tims_chicken)
+            csv_writer.writerow([contact_num])
+            resp.message('Your entry is in. Thanks for particpating.')
+
+    else:
+        resp.message("{}: isn't a registered keyword please try again or visit www.Glpsmemphis.com for available drawings.".format(response))
+
+    print(contact_num , response)
+    return str(resp)
+
+if __name__ == '__main__':
+	app.run()
